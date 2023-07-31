@@ -57,6 +57,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
    const review = req.query.review;
    const username = req.session.authorization['username'];
  
+   
+
    for(let key in books){
        if(key === isbn){
         found = true
@@ -69,24 +71,13 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     }
 
 if(found == true){
-    let reviewExist;
-   for(let key in filteredBook.reviews){
-          if(key === username){
-              reviewExist = true;
-              review = filteredBook.reviews[username];
-              break;
-          }
-          else{
-              reviewExist = false;
-          }
+    
+    
+        filteredBook.reviews={username,review};
+        
+       res.send(filteredBook);
 
-   }
-   if(reviewExist){
-       res.send("review Exist");
-   }
-   else{
-       res.send("no reviews for the user");
-   }
+   
 }
    else{
        return res.send("unable to find the book");
