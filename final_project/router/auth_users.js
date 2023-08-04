@@ -4,6 +4,7 @@ let books = require("./booksdb.js");
 const regd_users = express.Router();
 
 let users = [];
+let reviews = [];
 
 const isValid = (username)=>{ 
     let userFound = users.filter((user)=>{
@@ -71,15 +72,30 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     }
 
 if(found == true){
-    
-    
-        filteredBook.reviews={username,review};
-        
-       res.send(filteredBook);
+    if(reviews.length == 0){
+        reviews.push({"username":username,"review":review});
+        filteredBook.reviews=reviews;
+        return res.send(filteredBook) 
+    }
+    else{
+           
+        reviews = reviews.filter((review)=>{
+            return review.username != username;                
+        });
 
+       
+       reviews.push({"username":username,"review":review});
+       filteredBook.reviews=reviews;
+       return res.send(filteredBook) 
+     
+    }
+     
+     
    
 }
    else{
+
+   
        return res.send("unable to find the book");
    }
 
