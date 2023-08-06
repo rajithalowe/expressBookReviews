@@ -29,17 +29,16 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  const req = axios.get("https://lrajitha-5000.theiadocker-3-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/");  
- console.log(req);
- req.then(resp =>{
+  const request = axios.get(books);  
+ console.log(request);
+ request.then(resp =>{
     let bookDetails = resp.data;
-    console.log(JSON.stringify(bookDetails,null,4));
+    console.log(JSON.stringify(bookDetails,null,4))
  })
   .catch(err=>{
       console.log(err.toString());
   });
-  
-
+});
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
