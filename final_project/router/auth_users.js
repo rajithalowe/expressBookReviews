@@ -102,6 +102,35 @@ if(found == true){
        
    
 });
+regd_users.delete("/auth/review/:isbn",(req,res)=>{
+      const isbn = req.params.isbn;
+      const username = req.session.authorization['username'];
+
+
+      for(let key in books){
+        if(key === isbn){
+         found = true
+         filteredBook = books[key];
+         break;
+        }
+        else{
+            found = false;
+        }
+     }
+     if(found==true){
+           
+        reviews = reviews.filter((review)=>{
+            return review.username != username;                
+        });
+
+       filteredBook.reviews=reviews;
+       return res.send(filteredBook)
+
+     }
+     else{
+         return res.send("Cannot find the book");
+     }
+});
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
